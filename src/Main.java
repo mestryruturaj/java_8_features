@@ -1,11 +1,13 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
         streamApi1();
         streamApi2();
-
+        streamApi3();
+        streamApi4();
     }
 
     //Q. Find the longest string in a list of strings using Java streams:
@@ -37,5 +39,32 @@ public class Main {
 
     }
 
+    //Q. Check if a list of integers contains a prime number using Java streams:
+    public static void streamApi3() {
+        List<Integer> numbers = Arrays.asList(4, 6, 8, 10, 12, 14, 15, 25, 27, 29);
+        boolean isPrime = numbers.stream()
+                .anyMatch(Main::checkPrime);
+        System.out.println(isPrime);
+    }
 
+    private static boolean checkPrime(int num) {
+        int i = 2;
+        for (; i * i < num; i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+
+        return !(i * i == num);
+    }
+
+
+    //Q. Check if a list of integers contains a prime number using Java streams and return a list of prime number
+    public static void streamApi4() {
+        List<Integer> numbers = Arrays.asList(4, 6, 8, 10, 12, 14, 15, 25, 27, 29, 3);
+        List<Integer> primes = numbers.stream()
+                .filter(Main::checkPrime)
+                .collect(Collectors.toList());
+        System.out.println(primes);
+    }
 }
