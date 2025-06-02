@@ -1,17 +1,23 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Flow;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
-        streamApi1();
-        streamApi2();
-        streamApi3();
-        streamApi4();
+        findLongestString();
+        calcAvgPersonAge();
+        isAnyPrime();
+        findPrimes();
+        mergeTwoSortedLists();
+        findIntersectionOfTwoLists();
     }
 
     //Q. Find the longest string in a list of strings using Java streams:
-    private static void streamApi1() {
+    private static void findLongestString() {
         List<String> strings = Arrays
                 .asList("apple", "banana", "cherry", "date", "grapefruit");
         String longestString = strings.stream()
@@ -24,7 +30,7 @@ public class Main {
     public record Person(String name, int age) {
     }
 
-    public static void streamApi2() {
+    public static void calcAvgPersonAge() {
         List<Person> persons = Arrays.asList(
                 new Person("Alice", 25),
                 new Person("Bob", 30),
@@ -40,7 +46,7 @@ public class Main {
     }
 
     //Q. Check if a list of integers contains a prime number using Java streams:
-    public static void streamApi3() {
+    public static void isAnyPrime() {
         List<Integer> numbers = Arrays.asList(4, 6, 8, 10, 12, 14, 15, 25, 27, 29);
         boolean isPrime = numbers.stream()
                 .anyMatch(Main::checkPrime);
@@ -49,22 +55,41 @@ public class Main {
 
     private static boolean checkPrime(int num) {
         int i = 2;
-        for (; i * i < num; i++) {
+        for (; i * i <= num; i++) {
             if (num % i == 0) {
                 return false;
             }
         }
-
-        return !(i * i == num);
+        return true;
     }
 
 
     //Q. Check if a list of integers contains a prime number using Java streams and return a list of prime number
-    public static void streamApi4() {
+    public static void findPrimes() {
         List<Integer> numbers = Arrays.asList(4, 6, 8, 10, 12, 14, 15, 25, 27, 29, 3);
         List<Integer> primes = numbers.stream()
                 .filter(Main::checkPrime)
                 .collect(Collectors.toList());
         System.out.println(primes);
+    }
+
+    //Q. Merge two sorted lists into a single sorted list using Java streams:
+    public static void mergeTwoSortedLists() {
+        List<Integer> list1 = Arrays.asList(1, 3, 5, 7, 9);
+        List<Integer> list2 = Arrays.asList(2, 4, 6, 8, 10);
+        List<Integer> mergedSorted = Stream.concat(list1.stream(), list2.stream())
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println(mergedSorted);
+    }
+
+    //Q. Find the intersection of two lists using Java streams:
+    public static void findIntersectionOfTwoLists() {
+        List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> list2 = Arrays.asList(3, 4, 5, 6, 7);
+        List<Integer> intersection = list1.stream()
+                .filter(list2::contains)
+                .collect(Collectors.toList());
+        System.out.println(intersection);
     }
 }
