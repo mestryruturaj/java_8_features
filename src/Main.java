@@ -1,8 +1,7 @@
 import java.util.Arrays;
-import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.Flow;
-import java.util.function.Function;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,6 +13,8 @@ public class Main {
         findPrimes();
         mergeTwoSortedLists();
         findIntersectionOfTwoLists();
+        removeDuplicates();
+        findUniqueElements();
     }
 
     //Q. Find the longest string in a list of strings using Java streams:
@@ -91,5 +92,28 @@ public class Main {
                 .filter(list2::contains)
                 .collect(Collectors.toList());
         System.out.println(intersection);
+    }
+
+    //Q. Remove duplicates from a list while preserving the order using Java streams:
+    private static void removeDuplicates() {
+        List<Integer> numbersWithDuplicates = Arrays.asList(1, 2, 3, 2, 4, 1, 5, 6, 5);
+        List<Integer> distincts = numbersWithDuplicates.stream()
+                .distinct()
+                .collect(Collectors.toList());
+        System.out.println(distincts);
+    }
+
+    //Q. Identify numbers with unit frequency
+    private static void findUniqueElements() {
+        List<Integer> numbersWithDuplicates = Arrays.asList(1, 2, 3, 2, 4, 1, 5, 6, 5);
+        List<Integer> uniques = numbersWithDuplicates.stream()
+                .collect(Collectors.groupingBy(i -> i, LinkedHashMap::new, Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+        System.out.println(uniques);
+
+
     }
 }
