@@ -15,6 +15,8 @@ public class Main {
         findIntersectionOfTwoLists();
         removeDuplicates();
         findUniqueElements();
+        sumOfTransactionsPerDay();
+        findKthSmallest();
     }
 
     //Q. Find the longest string in a list of strings using Java streams:
@@ -113,7 +115,37 @@ public class Main {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
         System.out.println(uniques);
+    }
 
+    //Q. Given a list of transactions, find the sum of transaction amounts for each day using Java streams:
+    private record Transaction(String date, int amount) {
+    }
 
+    private static void sumOfTransactionsPerDay() {
+        List<Transaction> transactions = Arrays.asList(
+                new Transaction("2022-01-01", 100),
+                new Transaction("2022-01-01", 200),
+                new Transaction("2022-01-02", 300),
+                new Transaction("2022-01-02", 400),
+                new Transaction("2022-01-03", 500)
+        );
+
+        Map<String, Integer> dayToSum = transactions.stream()
+                .collect(Collectors.groupingBy(Transaction::date, LinkedHashMap::new, Collectors.summingInt(Transaction::amount)));
+
+        System.out.println(dayToSum);
+    }
+
+    //Q. Find the kth smallest element in an array using Java streams:
+    private static void findKthSmallest() {
+        List<Integer> nums = List.of(4, 55, 2, 1, 288, 4, 6, 74, 3);
+        int k = 7;
+
+        int ans = nums.stream()
+                .sorted()
+                .skip(k - 1)
+                .findFirst()
+                .orElse(-1);
+        System.out.println(ans);
     }
 }
