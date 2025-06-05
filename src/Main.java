@@ -17,6 +17,8 @@ public class Main {
         findUniqueElements();
         sumOfTransactionsPerDay();
         findKthSmallest();
+        findFreqOfWords();
+        partitionIntoTwoGroups();
     }
 
     //Q. Find the longest string in a list of strings using Java streams:
@@ -147,5 +149,22 @@ public class Main {
                 .findFirst()
                 .orElse(-1);
         System.out.println(ans);
+    }
+
+    //Q. Given a list of strings, find the frequency of each word using Java streams:
+    private static void findFreqOfWords() {
+        List<String> words = Arrays.asList("apple", "banana", "apple", "cherry",
+                "banana", "apple");
+        Map<String, Long> freq = words.stream()
+                .collect(Collectors.groupingBy(i -> i, () -> new LinkedHashMap<>(), Collectors.counting()));
+        System.out.println(freq);
+    }
+
+    //Q. Implement a method to partition a list into two groups based on a predicate using Java streams:
+    private static void partitionIntoTwoGroups() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        Map<Boolean, List<Integer>> partitions = numbers.stream()
+                .collect(Collectors.partitioningBy(i -> i % 2 == 0));
+        System.out.println(partitions);
     }
 }
