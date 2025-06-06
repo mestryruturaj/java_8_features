@@ -1,7 +1,5 @@
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,6 +19,8 @@ public class Main {
         partitionIntoTwoGroups();
         findEvenNumbers();
         fineNumbersStartingWithX();
+        findRepeatedNumbers();
+        findFirstElement();
     }
 
     //https://medium.com/@mehar.chand.cloud/java-stream-coding-interview-questions-part-1-dc39e3575727
@@ -186,11 +186,37 @@ public class Main {
     private static void fineNumbersStartingWithX() {
         List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 32);
         int x = 1;
+        /*
         List<Integer> numbersStartingWithX = myList.stream()
                 .map(String::valueOf)
                 .filter(numStr -> numStr.startsWith(String.valueOf(x)))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
+         */
+        List<Integer> numbersStartingWithX = myList.stream()
+                .filter(num -> String.valueOf(num).startsWith(String.valueOf(x)))
+                .collect(Collectors.toList());
         System.out.println(numbersStartingWithX);
+    }
+
+    //3. How to find duplicate elements in a given integers list in java using Stream functions?
+    private static void findRepeatedNumbers() {
+        List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 98, 32, 15);
+        List<Integer> repeatedNumbers = myList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        System.out.println(repeatedNumbers);
+    }
+
+    //4. Given the list of integers, find the first element of the list using Stream functions?
+    private static void findFirstElement() {
+        List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 98, 32, 15);
+        Optional<Integer> firstOptional = myList.stream()
+                .findFirst();
+        firstOptional.ifPresent(System.out::println);
     }
 }
