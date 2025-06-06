@@ -19,8 +19,11 @@ public class Main {
         findKthSmallest();
         findFreqOfWords();
         partitionIntoTwoGroups();
+        findEvenNumbers();
+        fineNumbersStartingWithX();
     }
 
+    //https://medium.com/@mehar.chand.cloud/java-stream-coding-interview-questions-part-1-dc39e3575727
     //Q. Find the longest string in a list of strings using Java streams:
     private static void findLongestString() {
         List<String> strings = Arrays
@@ -166,5 +169,28 @@ public class Main {
         Map<Boolean, List<Integer>> partitions = numbers.stream()
                 .collect(Collectors.partitioningBy(i -> i % 2 == 0));
         System.out.println(partitions);
+    }
+
+
+    //https://blog.devgenius.io/java-8-coding-and-programming-interview-questions-and-answers-62512c44f062
+    //1. Given a list of integers, find out all the even numbers that exist in the list using Stream functions?
+    private static void findEvenNumbers() {
+        List<Integer> list = Arrays.asList(10, 15, 8, 49, 25, 98, 32);
+        List<Integer> evens = list.stream()
+                .filter(num -> num % 2 == 0)
+                .collect(Collectors.toList());
+        System.out.println(evens);
+    }
+
+    //2. Given a list of integers, find out all the numbers starting with 1 using Stream functions?
+    private static void fineNumbersStartingWithX() {
+        List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 32);
+        int x = 1;
+        List<Integer> numbersStartingWithX = myList.stream()
+                .map(String::valueOf)
+                .filter(numStr -> numStr.startsWith(String.valueOf(x)))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+        System.out.println(numbersStartingWithX);
     }
 }
