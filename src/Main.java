@@ -21,6 +21,8 @@ public class Main {
         fineNumbersStartingWithX();
         findRepeatedNumbers();
         findFirstElement();
+        findTotalElements();
+        findMaxElement();
     }
 
     //https://medium.com/@mehar.chand.cloud/java-stream-coding-interview-questions-part-1-dc39e3575727
@@ -218,5 +220,22 @@ public class Main {
         Optional<Integer> firstOptional = myList.stream()
                 .findFirst();
         firstOptional.ifPresent(System.out::println);
+    }
+
+    //5. Given a list of integers, find the total number of elements present in the list using Stream functions?
+    private static void findTotalElements() {
+        List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 98, 32, 15);
+        long count = myList.stream()
+                .count();
+        System.out.println(count);
+    }
+
+    //6. Given a list of integers, find the maximum value element present in it using Stream functions?
+    private static void findMaxElement() {
+        List<Integer> myList = Arrays.asList(10, 15, 8, 49, 25, 98, 98, 32, 15);
+        int max = myList.stream()
+                .max(Integer::compareTo)
+                .orElse(Integer.MIN_VALUE);
+        System.out.println(max);
     }
 }
