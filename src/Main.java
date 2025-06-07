@@ -23,6 +23,8 @@ public class Main {
         findFirstElement();
         findTotalElements();
         findMaxElement();
+        findFirstNonRepeatedCharacter();
+        findFirstRepeatingCharacter();
     }
 
     //https://medium.com/@mehar.chand.cloud/java-stream-coding-interview-questions-part-1-dc39e3575727
@@ -237,5 +239,35 @@ public class Main {
                 .max(Integer::compareTo)
                 .orElse(Integer.MIN_VALUE);
         System.out.println(max);
+    }
+
+    //7. Given a String, find the first non-repeated character in it using Stream functions?
+    private static void findFirstNonRepeatedCharacter() {
+        String input = "Java articles are Awesome";
+        char firstNonRepeatingChar = input.chars()
+                .mapToObj(i -> Character.toLowerCase((char) i))
+                .collect(Collectors.groupingBy(Function.identity(), () -> new LinkedHashMap<>(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(entry -> entry.getKey())
+                .findFirst()
+                .orElse('#');
+
+        System.out.println(firstNonRepeatingChar);
+    }
+
+    //8. Given a String, find the first repeated character in it using Stream functions?
+    private static void findFirstRepeatingCharacter() {
+        String input = "Java articles are Awesome";
+        char firstRepeatingChar = input.chars()
+                .mapToObj(i -> Character.toLowerCase((char) i))
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse('#');
+
+        System.out.println(firstRepeatingChar);
     }
 }
